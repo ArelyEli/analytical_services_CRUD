@@ -49,13 +49,12 @@ def delete_a_product(session, product_id):
     delete_product_by_id(session, product_id)
 
 def update_a_product(session, product_id, new_values):
+    product = get_product_by_id(session, product_id)
+    if not product:
+        raise ProducNotFoundError()
+
     product = get_product_by_name(session, new_values['name'])
     if product:
         raise ProducAlreadyExistError()
-
-    product = get_product_by_id(session, product_id)
-
-    if not product:
-        raise ProducNotFoundError()
 
     update_product_by_id(session, product_id, new_values)

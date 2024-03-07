@@ -10,9 +10,22 @@ class Users(database.Base):
     email = Column(String)
     password = Column(String)
 
+    def __repr__(self):
+        return self.name
 
-def get_user_by_email_and_password(session, email, password):
+
+def get_user_by_email(session, email):
     return session.query(Users).filter(
-        Users.email == email,
-        Users.password == password
+        Users.email == email
     ).first()
+
+
+def create_new_user(session, email, hashed_password, username):
+    new_user = Users(
+        name = username,
+        email = email,
+        password = hashed_password,
+    )
+
+    session.add(new_user)
+    session.commit()

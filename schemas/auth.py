@@ -7,3 +7,13 @@ class LoginRequest(BaseModel):
 
 class LoginResponse(BaseModel):
     access_token: str
+
+
+class SignUpRequest(BaseModel):
+    username: str
+    email: str
+    password: str
+
+
+class SignUpResponse(BaseModel):
+    message: str

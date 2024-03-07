@@ -1,48 +1,111 @@
-# analytical_services_CRUD
-Technical test for data engineering / data analyst.
-Instrucciones para el entrevistado:
-• Objetivo del proyecto: El objetivo de este proyecto es evaluar tus habilidades
-en el desarrollo web con Python utilizando el framework y la base de datos de tu
-elección. Deberás implementar un simple CRUD (Create, Reed, Update, Delete)
-para una entidad específica, en este caso, "Producto", con la adición de un
-sistema de autenticación de usuarios que permita solo a usuarios autenticados
-creen, actualicen o eliminen productos.
-• Requisitos:
-• Elige cualquier framework de Python para el desarrollo web.
-• Elige cualquier base de datos para el almacenamiento de datos.
-• Implementa las vistas, modelos, formularios y plantillas necesarios para el
-CRUD.
-• Implementa un sistema de registro y autenticación de usuarios.
-• Entidad del CRUD: La entidad para la cual implementarás el CRUD será
-"Producto". Un Producto debe tener los siguientes campos, donde todos ellos
-son obligatorios:
-• Nombre
-• Descripción
-• Precio
-• Stock
-• Funcionalidades requeridas:
-• Registro de usuarios.
-• Inicio de sesión de usuarios.
-• Listar todos los productos.
-• Crear un nuevo producto (disponible solo para usuarios autenticados).
-• Ver los detalles de un producto.
-• Actualizar la información de un producto (disponible solo para usuarios
-autenticados).
-• Eliminar un producto (disponible solo para usuarios autenticados).
-• Entrega:
-• Sube el proyecto a Github.
-• Incluye un archivo README.md con instrucciones claras para ejecutar y
-probar el proyecto.
+# Technical test CRUD (Create, Reed, Update, Delete)
 
-• Tiempo estimado: Se espera que puedas completar este proyecto en un tiempo
-razonable según tu nivel de experiencia. No hay un límite estricto de tiempo,
-pero generalmente este tipo de proyectos se completan en unas pocas horas.
-• Evaluación:
-• Se evaluará la funcionalidad y la exactitud de las operaciones CRUD.
-• Se considerará la claridad y organización del código.
-• La capacidad para manejar errores y excepciones de manera adecuada.
-• Se valorará la implementación segura y eficiente del sistema de
-autenticación de usuarios.
+The goal of this project is to implement a simple CRUD (Create, Reed, Update, Delete) for a specific entity, in this case, "Product", with the addition of a user authentication system that allows only authenticated users to create , update or delete products. Using FastAPI as a Python framework, PostgreSQL as a database and Doker for the container.
 
-Si tienes alguna pregunta o necesitas aclaraciones adicionales, no dudes en
-contactarnos.
+## Usage
+Clone this repository to your local machine: 
+```sh
+git clone git@github.com:ArelyEli/analytical_services_CRUD.git
+```
+
+To run the project you can use `docker` and `docker compose` for that you run the following command in the terminal, this will start the PostgreSQL database and server in FastAPI:
+```sh
+docker compose up
+```
+
+This going to start the server in:
+```sh
+http://localhost:8000/
+```
+
+## API Documentation
+The paths to the API documentation are `/docs` or `/redoc`, generated with `Swagger` and `ReDoc`.
+
+The endpoints created are the following:
+
+Login endpoint, this endpoint going to return the token for the user:
+```sh
+curl -X 'POST' \
+  'http://localhost:8000/token' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'grant_type=&username=my_username&password=my_password&scope=&client_id=&client_secret='
+```
+
+Signup endpoint, this endpoint is to create a new user:
+```sh
+curl -X 'POST' \
+  'http://localhost:8000/signup' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "my_username",
+  "email": "my_email",
+  "password": "my_password"
+}'
+```
+
+Create new product endpoint, this endpoint recive the information for the new product and add the product to the DB.
+Notice that a token is required:
+```sh
+curl -X 'POST' \
+  'http://localhost:8000/products' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer <token>' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "string",
+  "description": "string",
+  "price": 0,
+  "stock": 0
+}'
+```
+
+Get all products endpoint, this endpoint return the information of all products.
+Notice that a token is not required is a public endpoint:
+```sh
+curl -X 'GET' \
+  'http://localhost:8000/products' \
+  -H 'accept: application/json'
+}'
+```
+
+Get a product details endpoint, this endpoint return the information of a product.
+Notice that a token is not required is a public endpoint:
+```sh
+curl -X 'GET' \
+  'http://localhost:8000/products/<id>' \
+  -H 'accept: application/json'
+```
+
+Delete a produc.
+Notice that a token is required, only users can delete products:
+```sh
+curl -X 'DELETE' \
+  'http://localhost:8000/products/<id>' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer <token>'
+```
+
+Modify a produc.
+Notice that a token is required, only users can modify products and all fields are optional, that means that you can only change one field:
+```sh
+curl -X 'PATCH' \
+  'http://localhost:8000/products/<id>' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer <token>' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "string",
+  "description": "string",
+  "price": 0,
+  "stock": 0
+}'
+```
+
+## Highlight
+ - It was decided not to allow duplicate products, for this different verifications are carried out.
+ - A verification is made on the users, in this way the users cannot be duplicated based on email.
+ - It was decided to follow the PEP8 standards in code quality, for this the `flake` library was used.
+ - Used `PostgreSQL` along with `SQLAlchemy` for database design.
+

@@ -7,6 +7,7 @@ from services.errors import EmailAlreadyRegisteredError
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 def login(session, email, password):
     exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -24,6 +25,7 @@ def login(session, email, password):
         raise exception
 
     return create_access_token(data={"sub": user.email})
+
 
 def signup(session, user_info: SignUpRequest):
     if is_user_in_db(session, user_info.email):

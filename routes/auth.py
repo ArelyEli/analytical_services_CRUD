@@ -11,40 +11,30 @@ from models.database import get_session
 from fastapi import APIRouter
 from services.errors import EmailAlreadyRegisteredError
 
-auth_router = APIRouter(
-    tags=['auth']
-)
+auth_router = APIRouter(tags=["auth"])
+
 
 @auth_router.post("/token")
 async def handler_login(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
 ) -> LoginResponse:
     token = login(session, form_data.username, form_data.password)
 
-    return LoginResponse(
-        access_token = token
-    )
+    return LoginResponse(access_token=token)
 
 
 @auth_router.post("/signup")
 async def handler_signup(
-    user_info: SignUpRequest,
-    session: Session = Depends(get_session)
+    user_info: SignUpRequest, session: Session = Depends(get_session)
 ) -> MessageResponse:
     try:
         signup(session, user_info)
 
-        return MessageResponse(
-            message = 'Successful SignUp'
-        )
+        return MessageResponse(message="Successful SignUp")
     except EmailAlreadyRegisteredError as e:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=e.message
-        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
     except Exception as e:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=str(e)
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
         )

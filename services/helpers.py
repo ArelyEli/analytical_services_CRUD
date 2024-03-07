@@ -15,6 +15,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 10
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+
 def create_access_token(data: dict):
     to_encode = data.copy()
     expires_delta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -23,13 +24,16 @@ def create_access_token(data: dict):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+
 def is_user_in_db(session, email) -> bool:
     user = get_user_by_email(session, email)
     return bool(user)
 
+
 def is_product_in_db(session, name) -> bool:
     user = get_product_by_name(session, name)
     return bool(user)
+
 
 def get_user_by_jwt(token: Annotated[str, Depends(oauth2_scheme)]):
     credentials_exception = HTTPException(
@@ -50,7 +54,7 @@ def get_user_by_jwt(token: Annotated[str, Depends(oauth2_scheme)]):
     if user is None:
         raise credentials_exception
     return User(
-        id = user.id,
-        email = user.email,
-        username = user.username,
+        id=user.id,
+        email=user.email,
+        username=user.username,
     )

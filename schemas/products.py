@@ -2,11 +2,13 @@ from pydantic import BaseModel
 from typing import List
 from typing import Optional
 
+
 class CreateNewProductRequest(BaseModel):
     name: str
     description: str
     price: float
     stock: int
+
 
 class Product(BaseModel):
     id: int
@@ -14,6 +16,7 @@ class Product(BaseModel):
     description: str
     price: float
     stock: int
+
 
 class ProductToUpdate(BaseModel):
     name: Optional[str] = None
@@ -23,11 +26,12 @@ class ProductToUpdate(BaseModel):
 
     def as_dict(self):
         return {
-            'name': self.name,
-            'description': self.description,
-            'price': self.price,
-            'stock': self.stock,
+            "name": self.name,
+            "description": self.description,
+            "price": self.price,
+            "stock": self.stock,
         }
+
 
 class GetAllProductsResponse(BaseModel):
     products: List[Product] = []

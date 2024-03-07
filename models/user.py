@@ -15,16 +15,14 @@ class Users(database.Base):
 
 
 def get_user_by_email(session, email):
-    return session.query(Users).filter(
-        Users.email == email
-    ).first()
+    return session.query(Users).filter(Users.email == email).first()
 
 
 def create_new_user(session, email, hashed_password, username):
     new_user = Users(
-        username = username,
-        email = email,
-        password = hashed_password,
+        username=username,
+        email=email,
+        password=hashed_password,
     )
 
     session.add(new_user)

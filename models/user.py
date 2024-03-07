@@ -7,7 +7,7 @@ class Users(database.Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String)
-    email = Column(String)
+    email = Column(String, unique=True)
     password = Column(String)
 
     def __repr__(self):

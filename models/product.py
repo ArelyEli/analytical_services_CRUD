@@ -8,7 +8,7 @@ class Products(database.Base):
     __tablename__ = "products"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String)
+    name = Column(String, unique=True)
     description = Column(String)
     price = Column(FLOAT)
     stock = Column(Integer)
@@ -31,6 +31,14 @@ def delete_product_by_id(session, product_id):
     session.query(Products).filter(
         Products.id == product_id
     ).delete()
+    session.commit()
+
+def update_product_by_id(session, product_id, new_values):
+    new_values_filtered = {key: value for key, value in new_values.items() if value is not None}
+    print(new_values, new_values_filtered)
+    session.query(Products).filter(
+        Products.id == product_id
+    ).update(new_values_filtered)
     session.commit()
 
 

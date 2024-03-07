@@ -3,13 +3,13 @@ from fastapi import Depends
 from fastapi import HTTPException, status
 from typing import Annotated
 from schemas.core import MessageResponse
-from schemas.products import CreateNewProductRequest, GetAllProductsResponse, Product
+from schemas.products import CreateNewProductRequest, GetAllProductsResponse, Product, ProductToUpdate
 from sqlalchemy.orm.session import Session
 from models.database import get_session
 from fastapi import APIRouter
 from schemas.user import User
 from services.helpers import get_user_by_jwt
-from services.products import create_product, get_all_products, get_a_product, delete_a_product
+from services.products import create_product, get_all_products, get_a_product, delete_a_product, update_a_product
 from services.errors import ProducAlreadyExistError, ProducNotFoundError
 
 product_router = APIRouter(
@@ -85,6 +85,36 @@ async def handler_delete_a_product(
 
         return MessageResponse(
             message = 'Product deleted successfully'
+        )
+    except ProducNotFoundError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=e.message,
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+
+
+@product_router.patch("/products/{product_id}", status_code=status.HTTP_202_ACCEPTED)
+async def handler_update_a_product(
+    product_id: int,
+    new_values: ProductToUpdate,
+    _: Annotated[User, Depends(get_user_by_jwt)],
+    session: Session = Depends(get_session)
+) -> MessageResponse:
+    try:
+        update_a_product(session, product_id, new_values.as_dict())
+
+        return MessageResponse(
+            message = 'Product updated successfully'
+        )
+    except ProducAlreadyExistError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=e.message,
         )
     except ProducNotFoundError as e:
         raise HTTPException(

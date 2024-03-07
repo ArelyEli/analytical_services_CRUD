@@ -1,5 +1,5 @@
 from services.helpers import is_product_in_db
-from models.product import create_new_product, get_products, get_product_by_id, delete_product_by_id
+from models.product import create_new_product, get_products, get_product_by_id, delete_product_by_id, update_product_by_id, get_product_by_name
 from services.errors import ProducAlreadyExistError, ProducNotFoundError
 from schemas.products import Product, GetAllProductsResponse
 
@@ -47,3 +47,15 @@ def delete_a_product(session, product_id):
         raise ProducNotFoundError()
 
     delete_product_by_id(session, product_id)
+
+def update_a_product(session, product_id, new_values):
+    product = get_product_by_name(session, new_values['name'])
+    if product:
+        raise ProducAlreadyExistError()
+
+    product = get_product_by_id(session, product_id)
+
+    if not product:
+        raise ProducNotFoundError()
+
+    update_product_by_id(session, product_id, new_values)

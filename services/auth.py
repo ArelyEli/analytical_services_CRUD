@@ -1,9 +1,10 @@
-from models.user import create_new_user, get_user_by_email
 from fastapi import HTTPException, status
-from services.helpers import create_access_token, is_user_in_db
+from models.user import create_new_user, get_user_by_email
 from passlib.context import CryptContext
 from schemas.auth import SignUpRequest
+
 from services.errors import EmailAlreadyRegisteredError
+from services.helpers import create_access_token, is_user_in_db
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

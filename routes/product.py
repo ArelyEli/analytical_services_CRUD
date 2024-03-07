@@ -1,26 +1,16 @@
 from typing import Annotated
-from fastapi import Depends
-from fastapi import HTTPException, status
-from schemas.core import MessageResponse
-from schemas.products import (
-    CreateNewProductRequest,
-    GetAllProductsResponse,
-    Product,
-    ProductToUpdate,
-)
-from sqlalchemy.orm.session import Session
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from models.database import get_session
-from fastapi import APIRouter
+from schemas.core import MessageResponse
+from schemas.products import (CreateNewProductRequest, GetAllProductsResponse,
+                              Product, ProductToUpdate)
 from schemas.user import User
-from services.helpers import get_user_by_jwt
-from services.products import (
-    create_product,
-    get_all_products,
-    get_a_product,
-    delete_a_product,
-    update_a_product,
-)
 from services.errors import ProducAlreadyExistError, ProducNotFoundError
+from services.helpers import get_user_by_jwt
+from services.products import (create_product, delete_a_product, get_a_product,
+                               get_all_products, update_a_product)
+from sqlalchemy.orm.session import Session
 
 product_router = APIRouter(tags=["products"])
 

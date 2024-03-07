@@ -1,14 +1,10 @@
-from services.helpers import is_product_in_db
-from models.product import (
-    create_new_product,
-    get_products,
-    get_product_by_id,
-    delete_product_by_id,
-    update_product_by_id,
-    get_product_by_name,
-)
+from models.product import (create_new_product, delete_product_by_id,
+                            get_product_by_id, get_product_by_name,
+                            get_products, update_product_by_id)
+from schemas.products import GetAllProductsResponse, Product
+
 from services.errors import ProducAlreadyExistError, ProducNotFoundError
-from schemas.products import Product, GetAllProductsResponse
+from services.helpers import is_product_in_db
 
 
 def create_product(session, product, user):

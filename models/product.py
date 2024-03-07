@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, FLOAT, ForeignKey
+from sqlalchemy import FLOAT, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import mapped_column
+
 from models import database
 from models.user import Users
 

@@ -1,14 +1,13 @@
 from typing import Annotated
-from fastapi import Depends
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from fastapi import HTTPException, status
+from models.database import get_session
 from schemas.auth import LoginResponse, SignUpRequest
 from schemas.core import MessageResponse
 from services.auth import login, signup
-from sqlalchemy.orm.session import Session
-from models.database import get_session
-from fastapi import APIRouter
 from services.errors import EmailAlreadyRegisteredError
+from sqlalchemy.orm.session import Session
 
 auth_router = APIRouter(tags=["auth"])
 

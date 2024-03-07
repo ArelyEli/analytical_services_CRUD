@@ -1,13 +1,13 @@
 from datetime import datetime, timedelta, timezone
-from jose import jwt, JWTError
-from models.user import get_user_by_email
-from models.product import get_product_by_name
-from fastapi import HTTPException, status
 from typing import Annotated
+
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from fastapi import Depends
-from schemas.user import User
+from jose import JWTError, jwt
 from models.database import Session
+from models.product import get_product_by_name
+from models.user import get_user_by_email
+from schemas.user import User
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"

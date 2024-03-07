@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-
 from pydantic import BaseModel
+
 from models import database
 from routes.auth import auth_router
 from routes.product import product_router

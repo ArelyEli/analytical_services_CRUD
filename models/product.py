@@ -34,3 +34,7 @@ def create_new_product(session, product, user: Users):
 
     session.add(new_product)
     session.commit()
+
+
+def get_products(session):
+    return session.query(Products).all()

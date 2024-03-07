@@ -6,6 +6,13 @@ engine = create_engine(
     "postgresql://postgres:postgres@0.0.0.0:5432/postgres", echo=True
 )
 Session = sessionmaker(bind=engine)
-session = Session()
 
 Base = declarative_base()
+
+
+def get_session():
+    session = Session()
+    try:
+        yield session
+    finally:
+        session.close()

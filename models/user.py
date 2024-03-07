@@ -9,3 +9,10 @@ class Users(database.Base):
     name = Column(String)
     email = Column(String)
     password = Column(String)
+
+
+def get_user_by_email_and_password(session, email, password):
+    return session.query(Users).filter(
+        Users.email == email,
+        Users.password == password
+    ).first()

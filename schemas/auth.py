@@ -13,7 +13,3 @@ class SignUpRequest(BaseModel):
     username: str
     email: str
     password: str
-
-
-class SignUpResponse(BaseModel):
-    message: str

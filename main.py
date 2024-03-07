@@ -1,9 +1,10 @@
+from sys import prefix
 from fastapi import FastAPI
-from fastapi.security import OAuth2PasswordBearer
 
 from pydantic import BaseModel
 from models import database
 from routes.auth import auth_router
+from routes.product import product_router
 
 
 class TokenData(BaseModel):
@@ -15,10 +16,10 @@ class Token(BaseModel):
     token_type: str
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
 
 app.include_router(auth_router)
+app.include_router(product_router)
 
 database.Base.metadata.create_all(database.engine)
 

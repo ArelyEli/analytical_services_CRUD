@@ -6,12 +6,12 @@ class Users(database.Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String)
+    username = Column(String)
     email = Column(String)
     password = Column(String)
 
     def __repr__(self):
-        return self.name
+        return self.username
 
 
 def get_user_by_email(session, email):
@@ -22,7 +22,7 @@ def get_user_by_email(session, email):
 
 def create_new_user(session, email, hashed_password, username):
     new_user = Users(
-        name = username,
+        username = username,
         email = email,
         password = hashed_password,
     )

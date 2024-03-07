@@ -1,7 +1,6 @@
 from typing import Annotated
 from fastapi import Depends
 from fastapi import HTTPException, status
-from typing import Annotated
 from schemas.core import MessageResponse
 from schemas.products import (
     CreateNewProductRequest,

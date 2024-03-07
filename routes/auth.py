@@ -1,7 +1,6 @@
 from typing import Annotated
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from typing import Annotated
 from fastapi import HTTPException, status
 from schemas.auth import LoginResponse, SignUpRequest
 from schemas.core import MessageResponse

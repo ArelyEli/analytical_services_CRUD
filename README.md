@@ -5,7 +5,7 @@ The goal of this project is to implement a simple CRUD (Create, Reed, Update, De
 ## Usage
 Clone this repository to your local machine: 
 ```sh
-git clone git@github.com:ArelyEli/analytical_services_CRUD.git
+git clone git@github.com:ArelyEli/analytics_associates_CRUD.git
 ```
 
 To run the project you can use `docker` and `docker compose` for that you run the following command in the terminal, this will start the PostgreSQL database and server in FastAPI:

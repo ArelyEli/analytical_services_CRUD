@@ -22,6 +22,17 @@ def get_product_by_name(session, name):
         Products.name == name
     ).first()
 
+def get_product_by_id(session, product_id):
+    return session.query(Products).filter(
+        Products.id == product_id
+    ).first()
+
+def delete_product_by_id(session, product_id):
+    session.query(Products).filter(
+        Products.id == product_id
+    ).delete()
+    session.commit()
+
 
 def create_new_product(session, product, user: Users):
     new_product = Products(

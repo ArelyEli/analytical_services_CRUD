@@ -20,6 +20,9 @@ http://localhost:8000/
 
 ## API Documentation
 The paths to the API documentation are `/docs` or `/redoc`, generated with `Swagger` and `ReDoc`.
+```sh
+http://localhost:8000/docs
+```
 
 The endpoints created are the following:
 
@@ -108,4 +111,5 @@ curl -X 'PATCH' \
  - A verification is made on the users, in this way the users cannot be duplicated based on email.
  - It was decided to follow the PEP8 standards in code quality, for this the `flake` library was used.
  - Used `PostgreSQL` along with `SQLAlchemy` for database design.
+ - A Github Action was added to verify code quality.
 
